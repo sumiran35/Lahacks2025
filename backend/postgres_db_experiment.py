@@ -4,6 +4,7 @@ from psycopg2 import OperationalError, errors
 import os
 import uuid
 from flask_cors import CORS
+import openai
 app = Flask(__name__)
 CORS(app)
 
@@ -12,8 +13,17 @@ DB_USER = os.environ.get("PG_DB_USER", "sumiranmishra")
 DB_PASSWORD = os.environ.get("PG_DB_PASSWORD", "Employee12@")
 DB_HOST = os.environ.get("PG_DB_HOST", "localhost")
 DB_PORT = os.environ.get("PG_DB_PORT", "5432")
+UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+openai.api_key = os.environ.get("OPENAI_API_KEY")
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+#UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 def get_db_connection():
     try:
         return psycopg2.connect(
@@ -149,7 +159,74 @@ def login_user():
         return jsonify({"error": str(e)}), 500
     finally:
         conn.close()
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
 
+    if file and allowed_file(file.filename):
+        filename = str(uuid.uuid4()) + '.' + file.filename.rsplit('.', 1)[1].lower()  # Unique file name
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        return jsonify({"message": f"File uploaded successfully! File path: {file_path}"}), 200
+    else:
+        return jsonify({"error": "Invalid file type"}), 400
+
+response = openai.Image.create_edit(
+    image=open("../uploads/8c061317-8048-45f0-a69e-5d426ba2485a.png","rb"),
+    mask=open("mask.png","rb"),
+    prompt="Make the sky sunset pink",
+    n=1,
+    size="1024x1024"
+)
+new_url = response['data'][0]['url']
+# Configure OpenAI
+openai.api_key = os.getenv("OPENAI_API_KEY")
+#working on the genration portion no db with uploaded pic path here yet
+@app.route('/generate', methods=['POST'])
+def generate_image():
+
+    data = request.get_json()
+    fname = data.get('filename', '').strip()
+    prompt = data.get('prompt', '').strip()
+
+
+    if not fname or not prompt:
+        return jsonify({"error": "Both 'filename' and 'prompt' are required"}), 400
+
+
+    orig_path = os.path.join(app.config['UPLOAD_FOLDER'], fname)
+    if not os.path.isfile(orig_path):
+        return jsonify({"error": "File not found"}), 404
+
+
+    mask_path = os.path.join(app.config['UPLOAD_FOLDER'], f"mask_{fname}")
+
+    with open(orig_path, 'rb') as src, open(mask_path, 'wb') as dst:
+        dst.write(src.read())
+
+
+    try:
+        with open(orig_path, 'rb') as img_file, open(mask_path, 'rb') as mask_file:
+            api_resp = openai.Image.create_edit(
+                image=img_file,
+                mask=mask_file,
+                prompt=prompt,
+                n=1,
+                size="1024x1024"
+            )
+    except Exception as e:
+        return jsonify({"error": f"OpenAI API error: {e}"}), 500
+
+    gen_url = api_resp['data'][0]['url']
+
+    return jsonify({
+        "original_file": orig_path,
+        "generated_url": gen_url
+    }), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

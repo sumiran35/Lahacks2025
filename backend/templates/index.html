@@ -1,207 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LA Hacks User Test</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .forms-container {
-            display: flex;
-            gap: 20px;
-        }
-        .form-section {
-            flex: 1;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #results {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 4px;
-        }
-        .success {
-            background-color: #dff0d8;
-            border: 1px solid #d6e9c6;
-            color: #3c763d;
-        }
-        .error {
-            background-color: #f2dede;
-            border: 1px solid #ebccd1;
-            color: #a94442;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LA Hacks User Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .forms-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .form-section {
+      flex: 1 1 240px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #results {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .success {
+      background-color: #dff0d8;
+      border: 1px solid #d6e9c6;
+      color: #3c763d;
+    }
+    .error {
+      background-color: #f2dede;
+      border: 1px solid #ebccd1;
+      color: #a94442;
+    }
+  </style>
 </head>
 <body>
-    <h1>User Registration & Login Test</h1>
+  <h1>User Registration & Login Test</h1>
 
-    <div class="forms-container">
-        <!-- Registration Form -->
-        <div class="form-section">
-            <h2>Register User</h2>
-            <form id="registerForm">
-                <div class="form-group">
-                    <label>First Name:</label>
-                    <input type="text" id="fname" required>
-                </div>
-                <div class="form-group">
-                    <label>Last Name:</label>
-                    <input type="text" id="lname" required>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password:</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit">Register</button>
-            </form>
+  <div class="forms-container">
+    <!-- Registration Form -->
+    <div class="form-section">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="fname">First Name:</label>
+          <input type="text" id="fname" required />
         </div>
-
-        <!-- Login Form -->
-        <div class="form-section">
-            <h2>Login</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label>Password:</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
+        <div class="form-group">
+          <label for="lname">Last Name:</label>
+          <input type="text" id="lname" required />
         </div>
-
-        <!-- File Upload Form -->
-        <div class="form-section">
-            <h2>Upload File</h2>
-            <form id="uploadForm">
-                <div class="form-group">
-                    <label>Choose File:</label>
-                    <input type="file" id="fileUpload" required>
-                </div>
-                <button type="submit">Upload File</button>
-            </form>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" required />
         </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" required />
+        </div>
+        <button type="submit">Register</button>
+      </form>
     </div>
 
-    <div id="results"></div>
+    <!-- Login Form -->
+    <div class="form-section">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email:</label>
+          <input type="email" id="loginEmail" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password:</label>
+          <input type="password" id="loginPassword" required />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
 
-    <script>
-        // Handle registration form submission
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    <!-- File Upload Form -->
+    <div class="form-section">
+      <h2>Upload File</h2>
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="fileUpload">Choose File:</label>
+          <input type="file" id="fileUpload" name="file" required />
+        </div>
+        <button type="submit">Upload</button>
+      </form>
+    </div>
 
-            const userData = {
-                ufname: document.getElementById('fname').value,
-                ulname: document.getElementById('lname').value,
-                uemail: document.getElementById('email').value,
-                password: document.getElementById('password').value
-            };
+    <!-- Generate Image Form -->
+    <div class="form-section">
+      <h2>Generate Image</h2>
+      <form id="generateForm">
+        <div class="form-group">
+          <label for="genFilename">Uploaded Filename:</label>
+          <input
+            type="text"
+            id="genFilename"
+            placeholder="e.g. abc1234.png"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="genPrompt">Prompt:</label>
+          <input
+            type="text"
+            id="genPrompt"
+            placeholder="Describe your desired edit"
+            required
+          />
+        </div>
+        <button type="submit">Generate</button>
+      </form>
+    </div>
+  </div>
 
-            try {
-                const response = await fetch('http://localhost:5000/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(userData)
-                });
+  <div id="results"></div>
 
-                const data = await response.json();
-                showResult(data, response.ok);
-            } catch (error) {
-                showResult({ error: error.message }, false);
-            }
-        });
+  <script>
+    // Display results helper
+    function showResult(data, isSuccess) {
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.className = isSuccess ? "success" : "error";
+      // If there's a generated_image_url, show it as an <img>
+      if (data.generated_url) {
+        resultsDiv.innerHTML = `
+          <p>${data.message || ""}</p>
+          <p><strong>Original:</strong> ${data.original_file ||
+            data.saved_file_path}</p>
+          <p><strong>New Image:</strong></p>
+          <img src="${data.generated_url}" alt="Generated" style="max-width:100%;"/>
+        `;
+      } else {
+        resultsDiv.innerHTML = `<pre>${JSON.stringify(
+          data,
+          null,
+          2
+        )}</pre>`;
+      }
+    }
 
-        // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+    // POST JSON helper
+    async function postJSON(url, payload) {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      return { ok: res.ok, data: await res.json() };
+    }
 
-            const loginData = {
-                uemail: document.getElementById('loginEmail').value,
-                password: document.getElementById('loginPassword').value
-            };
+    // Handle Registration
+    document
+      .getElementById("registerForm")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const payload = {
+          ufname: document.getElementById("fname").value,
+          ulname: document.getElementById("lname").value,
+          uemail: document.getElementById("email").value,
+          password: document.getElementById("password").value,
+        };
+        const { ok, data } = await postJSON(
+          "http://localhost:5000/register",
+          payload
+        );
+        showResult(data, ok);
+      });
 
-            try {
-                const response = await fetch('http://localhost:5000/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(loginData)
-                });
+    // Handle Login
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        uemail: document.getElementById("loginEmail").value,
+        password: document.getElementById("loginPassword").value,
+      };
+      const { ok, data } = await postJSON(
+        "http://localhost:5000/login",
+        payload
+      );
+      showResult(data, ok);
+    });
 
-                const data = await response.json();
-                showResult(data, response.ok);
-            } catch (error) {
-                showResult({ error: error.message }, false);
-            }
-        });
+    // Handle File Upload
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const res = await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      showResult(data, res.ok);
+    });
 
-        // Handle file upload form submission
-        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData();
-            const fileInput = document.getElementById('fileUpload');
-            formData.append('file', fileInput.files[0]);
-
-            try {
-                const response = await fetch('http://localhost:5000/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                const data = await response.json();
-                showResult(data, response.ok);
-            } catch (error) {
-                showResult({ error: error.message }, false);
-            }
-        });
-
-        // Display results
-        function showResult(data, isSuccess) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.className = isSuccess ? 'success' : 'error';
-            resultsDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        }
-    </script>
+    // Handle Image Generation
+    document
+      .getElementById("generateForm")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const payload = {
+          filename: document.getElementById("genFilename").value.trim(),
+          prompt: document.getElementById("genPrompt").value.trim(),
+        };
+        const { ok, data } = await postJSON(
+          "http://localhost:5000/generate",
+          payload
+        );
+        showResult(data, ok);
+      });
+  </script>
 </body>
 </html>
