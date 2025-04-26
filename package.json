@@ -1,0 +1,13 @@
+{
+  "name": "la-hacks-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "flask run",
+    "dev": "FLASK_DEBUG=1 FLASK_APP=backend/postgres_db_experiment.py python -m flask run",
+    "install-deps": "pip install -r requirements.txt",
+    "postinstall": "npm run install-deps"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
