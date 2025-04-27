@@ -283,28 +283,28 @@ Make sure the projects are specific to the materials visible in the image.`
                 description: "Transform plastic bottles into colorful hanging planters for herbs or succulents.",
                 difficulty: "Easy",
                 points: 50,
-                imageUrl: "/api/placeholder/300/200"
+                imageUrl: "/api/placeholder/1"
             },
             {
                 title: "Cardboard Organizer",
                 description: "Create a desk organizer from cardboard boxes to store stationery and small items.",
                 difficulty: "Medium",
                 points: 75,
-                imageUrl: "/api/placeholder/300/200"
+                imageUrl: "/api/placeholder/2"
             },
             {
                 title: "Tin Can Lantern",
                 description: "Create beautiful ambient lighting with upcycled cans and decorative hole patterns.",
                 difficulty: "Easy",
                 points: 60,
-                imageUrl: "/api/placeholder/300/200"
+                imageUrl: "/api/placeholder/3"
             },
             {
                 title: "Paper Mâché Art",
                 description: "Turn old newspapers and magazines into creative sculptures or decorative pieces.",
                 difficulty: "Medium",
                 points: 100,
-                imageUrl: "/api/placeholder/300/200"
+                imageUrl: "/api/placeholder/4"
             }
         ];
     }
@@ -375,6 +375,19 @@ async function generateImageForIdea(title, description) {
       return res.status(500).json({ success: false, message: 'Error generating challenge details' });
     }
   });
+
+// Route to serve placeholder images for fallback ideas
+app.get('/api/placeholder/:id', (req, res) => {
+  const { id } = req.params;
+  const placeholderPath = path.join(__dirname, 'generated', `${id}.png`);
+
+  if (fs.existsSync(placeholderPath)) {
+    res.sendFile(placeholderPath);
+  } else {
+    res.status(404).json({ success: false, message: 'Placeholder image not found' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
